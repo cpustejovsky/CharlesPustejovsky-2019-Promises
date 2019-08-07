@@ -27,7 +27,7 @@ mongoose
         const verifier = crypto.createVerify("sha256");
         verifier.update(message);
         verifier.end();
-        const verified = verifier.verify(user.publicKey, signature_hex);
+        const verified = verifier.verify(user.publicKey, signature);
 
         console.log(
           JSON.stringify(
