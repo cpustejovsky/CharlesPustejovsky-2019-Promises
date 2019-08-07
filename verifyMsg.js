@@ -32,6 +32,7 @@ mongoose
         const verifier = crypto.createVerify("sha256");
         verifier.update(message);
         verifier.end();
+        //https://nodejs.org/api/crypto.html#crypto_class_verify
         const verified = verifier.verify(user.publicKey, signature);
 
         console.log(verified);
