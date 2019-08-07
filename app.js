@@ -1,6 +1,7 @@
 //IMPORTS
-const Express = require("express");
-const app = Express();
+// const Express = require("express");
+// const app = Express();
+const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 
@@ -17,24 +18,19 @@ mongoose
   .then(() => {
     console.log("connected to database");
     // authenticate to server with a password: ability to set password for user via argument when starting server
-    console.log(username);
-    console.log(password);
-
     if (username && password) {
+      let hash = bcrypt.hashSync(password, 14);
       let user = new User({
         username: username,
-        password: password
+        password: hash
       });
       user.save(err => {
         if (err) {
-          let error = "Something bad happened! Please try again!";
-
-          if ((err.code = 11000)) {
-            error = "That email is already taken, please try another.";
-          }
-          console.log(error);
+          console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
+          `);
+        } else {
+          console.log(user);
         }
-        console.log(user);
       });
     } else {
       console.log(
@@ -44,9 +40,9 @@ mongoose
   })
   .catch(err => console.log(err));
 
-app.listen(port, () => {
-  console.log(`Running on Port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Running on Port ${port}`);
+// });
 
 // store public key to server
 
