@@ -7,9 +7,7 @@
 4. If you are running into issues, having running `mongo` or something like RoboMongo could help
 
 ## Authentication
-1. Once set up, `run node signUp.js <username> <password>`
-   1. Upon success you'll receive the message 
-   > ```bash 
-      Huzzah! <username> was authenticated. 
-      Make sure to keep that password in a secure place.
-    ```
+1. Once set up, run `node signUp.js <username> <password>`
+2. Upon success you'll receive the message: `Huzzah! <username> was authenticated. Make sure to keep that password in a secure place.`
+3. Now run `node storePubKey.js <username> <password> <public key>` to store a public key associated with your login credentials in the database.
+4. 
