@@ -1,6 +1,4 @@
 //IMPORTS
-// const Express = require("express");
-// const app = Express();
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
@@ -16,10 +14,11 @@ mongoose
   .set("useNewUrlParser", true)
   .connect("mongodb://localhost:27017/CharlesPustejovsky-2019")
   .then(() => {
-    console.log("connected to database");
-    // authenticate to server with a password: ability to set password for user via argument when starting server
+    // console.log("connected to database");
+    //setting password for user via argument when starting server and
     if (username && password) {
-      let hash = bcrypt.hashSync(password, 14);
+      console.log("setting up your username and password...");
+      let hash = bcrypt.hashSync(password, 17);
       let user = new User({
         username: username,
         password: hash
@@ -28,24 +27,24 @@ mongoose
         if (err) {
           console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
           `);
+          process.exit(1);
         } else {
-          console.log(user);
+          console.log(
+            `Huzzah! ${
+              user.username
+            } was authenticated.\nKeep your password in a secure place.`
+          );
+          process.exit(0);
         }
       });
     } else {
       console.log(
         "try again and provide a username as the first argument and a password as the second argument"
       );
+      process.exit(1);
     }
   })
-  .catch(err => console.log(err));
-
-// app.listen(port, () => {
-//   console.log(`Running on Port ${port}`);
-// });
-
-// store public key to server
-
-// allow client to sign a message with private key
-
-// allow submission of signed message to server to verify signature
+  .catch(err => {
+    console.log(err);
+    process.exit(1);
+  });
