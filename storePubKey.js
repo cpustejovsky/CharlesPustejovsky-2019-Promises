@@ -5,7 +5,6 @@ const fs = require("fs");
 const User = require("./models/user.js");
 
 //VARIABLES
-let port = (process.env.PORT = 3000);
 let username = process.argv[2];
 let password = process.argv[3];
 let pubKey = process.argv[4];
@@ -16,10 +15,12 @@ mongoose
   .set("useNewUrlParser", true)
   .connect("mongodb://localhost:27017/CharlesPustejovsky-2019")
   .then(() => {
-    //find User by Username and compare passwords
+    //find User by username and compare password provided to the hash stored on mongodb
     if (username && password && pubKey) {
       console.log("authenticating user...");
       User.findOne({ username: username }, (err, user) => {
+        //wasn't specifically catching the error of no username match and instead failing on
+        //`can't read property password of null` so I set this up for clearer error handling
         if (err || !user) {
           if (err) throw err;
           if (!user) console.log(`User not found.`);
@@ -28,6 +29,7 @@ mongoose
           console.log(`found user!`);
           console.log(`authenticating your password...`);
           if (bcrypt.compareSync(password, user.password)) {
+            //TODO: replace with Promise
             fs.readFile(pubKey, (err, data) => {
               if (err) throw err;
               else {

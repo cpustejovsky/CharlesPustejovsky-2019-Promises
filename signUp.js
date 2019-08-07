@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const User = require("./models/user.js");
 
 //VARIABLES
-let port = (process.env.PORT = 3000);
 let username = process.argv[2];
 let password = process.argv[3];
 
@@ -13,11 +12,12 @@ mongoose
   .set("useCreateIndex", true)
   .set("useNewUrlParser", true)
   .connect("mongodb://localhost:27017/CharlesPustejovsky-2019")
+  /*setting password for user when starting server*/
   .then(() => {
-    // console.log("connected to database");
-    //setting password for user via argument when starting server and
+    //checking that username and password were provided as arguments
     if (username && password) {
       console.log("setting up your username and password...");
+      //the salt could probably be lowered, but I set it higher to make it more secure. let me know if that thinking is wrong.
       let hash = bcrypt.hashSync(password, 17);
       let user = new User({
         username: username,
@@ -25,12 +25,13 @@ mongoose
       });
       user.save(err => {
         if (err) {
+          //I thought this would make the error handling a bit more user friendly
           console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
           `);
           process.exit(1);
         } else {
           console.log(
-            `Huzzah! ${
+            `Congratulations! ${
               user.username
             } was authenticated.\nKeep your password in a secure place.`
           );
@@ -46,5 +47,6 @@ mongoose
   })
   .catch(err => {
     console.log(err);
+    //I have the `process.exit()`s all over to make sure the file closes out either because of error or because it's finished running so this could be broken up with a couple of files
     process.exit(1);
   });

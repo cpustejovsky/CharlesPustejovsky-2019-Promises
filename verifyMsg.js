@@ -1,8 +1,10 @@
+// IMPORTS
 const fs = require("fs");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 
+//VARIABLES
 const username = process.argv[2];
 const signature = fs.readFileSync(process.argv[3]);
 const message = fs.readFileSync(process.argv[4], "utf-8");
@@ -14,6 +16,7 @@ mongoose
   .set("useNewUrlParser", true)
   .connect("mongodb://localhost:27017/CharlesPustejovsky-2019")
   .then(() => {
+    //I find the public key attached to the username stored using storePubKey.js
     User.findOne({ username: username }, (err, user) => {
       if (err || !user) {
         if (err) throw err;
@@ -24,22 +27,14 @@ mongoose
         console.log(
           `verifying message signature with ${user.username}'s public key...`
         );
+        //now the script verifies the message using the signature created by signMsg.js
+        //and the public key stored using storePubKey.js
         const verifier = crypto.createVerify("sha256");
         verifier.update(message);
         verifier.end();
         const verified = verifier.verify(user.publicKey, signature);
 
-        console.log(
-          JSON.stringify(
-            {
-              message: message,
-              signature: signature_hex,
-              verified: verified
-            },
-            null,
-            2
-          )
-        );
+        console.log(verified);
         process.exit(0);
       }
     });
