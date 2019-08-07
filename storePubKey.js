@@ -19,19 +19,20 @@ mongoose
     if (username && password && pubKey) {
       console.log("authenticating user...");
       User.findOne({ username: username }, (err, user) => {
-        if (err) {
-          console.log(err);
+        if (err || !user) {
+          if (err) throw err;
+          if (!user) console.log(`User not found.`);
           process.exit(1);
         } else {
           console.log(`found user!`);
-          console.log(`authentication password...`);
+          console.log(`authenticating your password...`);
           if (bcrypt.compareSync(password, user.password)) {
             console.log(
               `Success! Here's the Public Key you're trying to store on the databse:\n${pubKey}`
             );
             process.exit(0);
           } else {
-            console.log(`passwords did not match; please try again.`);
+            console.log(`passwords did not match. please try again.`);
             process.exit(1);
           }
         }
