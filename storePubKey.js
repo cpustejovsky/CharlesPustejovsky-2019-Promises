@@ -30,7 +30,20 @@ mongoose
             console.log(
               `Success! Here's the Public Key you're trying to store on the databse:\n${pubKey}`
             );
-            process.exit(0);
+            user.publicKey = pubKey;
+            user.save(err => {
+              if (err) {
+                console.log(err);
+                process.exit(1);
+              } else {
+                console.log(
+                  `successfully saved ${pubKey} to ${user.username} as ${
+                    user.publicKey
+                  }`
+                );
+                process.exit(0);
+              }
+            });
           } else {
             console.log(`passwords did not match. please try again.`);
             process.exit(1);
