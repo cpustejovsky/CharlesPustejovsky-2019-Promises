@@ -1,6 +1,7 @@
 //IMPORTS
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+const fs = require("fs");
 const User = require("./models/user.js");
 
 //VARIABLES
@@ -27,21 +28,27 @@ mongoose
           console.log(`found user!`);
           console.log(`authenticating your password...`);
           if (bcrypt.compareSync(password, user.password)) {
-            console.log(
-              `Success! Here's the Public Key you're trying to store on the databse:\n${pubKey}`
-            );
-            user.publicKey = pubKey;
-            user.save(err => {
-              if (err) {
-                console.log(err);
-                process.exit(1);
-              } else {
+            fs.readFile(pubKey, (err, data) => {
+              if (err) throw err;
+              else {
+                parsedData = data.toString();
                 console.log(
-                  `successfully saved ${pubKey} to ${user.username} as ${
-                    user.publicKey
-                  }`
+                  `Success! Here's the data from ${pubKey} that you're trying to store on the databse:\n${parsedData}`
                 );
-                process.exit(0);
+                user.publicKey = parsedData;
+                user.save(err => {
+                  if (err) {
+                    console.log(err);
+                    process.exit(1);
+                  } else {
+                    console.log(
+                      `successfully saved data from ${pubKey} to ${
+                        user.username
+                      } as ${user.publicKey}`
+                    );
+                    process.exit(0);
+                  }
+                });
               }
             });
           } else {
