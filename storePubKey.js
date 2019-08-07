@@ -32,9 +32,6 @@ mongoose
               if (err) throw err;
               else {
                 parsedData = data.toString();
-                console.log(
-                  `Success! Here's the data from ${pubKey} that you're trying to store on the databse:\n${parsedData}`
-                );
                 user.publicKey = parsedData;
                 user.save(err => {
                   if (err) {
@@ -44,7 +41,7 @@ mongoose
                     console.log(
                       `successfully saved data from ${pubKey} to ${
                         user.username
-                      } as ${user.publicKey}`
+                      }`
                     );
                     process.exit(0);
                   }
