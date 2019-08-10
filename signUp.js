@@ -8,6 +8,7 @@ let username = process.argv[2];
 let password = process.argv[3];
 const throwError = errMsg => {
   console.log(errMsg);
+  //I have the `process.exit()`s all over to make sure the file closes out either because of error or because it's finished running so this could be broken up with a couple of files
   process.exit(1);
 };
 mongoose
@@ -46,7 +47,5 @@ mongoose
     }
   })
   .catch(err => {
-    console.log(err);
-    //I have the `process.exit()`s all over to make sure the file closes out either because of error or because it's finished running so this could be broken up with a couple of files
-    process.exit(1);
+    throwError(err);
   });
