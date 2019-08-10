@@ -1,4 +1,8 @@
-# Developer Assessment 2019
+# --Developer Assessment 2019 with Promises!
+I realized after completing this assessment that I needed to stop putting off mastering promises and async/await.
+I know enough to know that callbacks aren't great code and not good for maintainability and I don't like that.
+
+So what better way to learn than to learn by doing? And what better project to try this out on than this one that made me realize how much I needed to stop relying on callbacks?!?!
 
 ## Set Up
 1. Clone repository
@@ -8,7 +12,7 @@
 
 ## Authentication
 1. Once set up, run `node signUp.js <username> <password>`
-2. Upon success you'll receive the message: `Huzzah! <username> was authenticated. Make sure to keep that password in a secure place.`
+2. Upon success you'll receive the message: `Congratulations! <username> was authenticated. Make sure to keep that password in a secure place.`
 
 ## Working with Public and Private Keys
 
