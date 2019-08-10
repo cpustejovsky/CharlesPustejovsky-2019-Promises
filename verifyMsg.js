@@ -8,7 +8,6 @@ const User = require("./models/user.js");
 const username = process.argv[2];
 const signature = fs.readFileSync(process.argv[3]);
 const message = fs.readFileSync(process.argv[4], "utf-8");
-const signature_hex = signature.toString("hex");
 
 mongoose
   /* Setup to deal with deprecation warnings */
