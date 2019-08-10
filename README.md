@@ -1,8 +1,4 @@
-# --Developer Assessment 2019 with Promises!
-I realized after completing this assessment that I needed to stop putting off mastering promises and async/await.
-I know enough to know that callbacks aren't great code and not good for maintainability and I don't like that.
-
-So what better way to learn than to learn by doing? And what better project to try this out on than this one that made me realize how much I needed to stop relying on callbacks?!?!
+<h1><del>Developer Assessment 2019</del> Promise Practice Based On a Developer Assessment</h1>
 
 ## Set Up
 1. Clone repository
