@@ -29,7 +29,6 @@ mongoose
           console.log(`found user!`);
           console.log(`authenticating your password...`);
           if (bcrypt.compareSync(password, user.password)) {
-            //TODO: replace with Promise
             fs.readFile(pubKey, (err, data) => {
               if (err) throw err;
               else {

@@ -22,7 +22,7 @@ mongoose
     if (username && password) {
       console.log("setting up your username and password...");
       //the salt could probably be lowered, but I set it higher to make it more secure. let me know if that thinking is wrong.
-      let hash = bcrypt.hashSync(password, 17);
+      let hash = bcrypt.hashSync(password, 5);
       let user = new User({
         username: username,
         password: hash
