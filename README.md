@@ -1,4 +1,4 @@
-# --Developer Assessment 2019-- Promise Practice Based On a Developer Assessment
+<h1><del>Developer Assessment 2019</del> Promise Practice Based On a Developer Assessment</h1>
 
 ## Set Up
 1. Clone repository
