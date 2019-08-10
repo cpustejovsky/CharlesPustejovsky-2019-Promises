@@ -6,7 +6,10 @@ const User = require("./models/user.js");
 //VARIABLES
 let username = process.argv[2];
 let password = process.argv[3];
-
+const throwError = errMsg => {
+  console.log(errMsg);
+  process.exit(1);
+};
 mongoose
   /* Setup to deal with deprecation warnings */
   .set("useCreateIndex", true)
@@ -25,10 +28,8 @@ mongoose
       });
       user.save(err => {
         if (err) {
-          //I thought this would make the error handling a bit more user friendly
-          console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
+          throwError(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
           `);
-          process.exit(1);
         } else {
           console.log(
             `Congratulations! ${
@@ -39,10 +40,9 @@ mongoose
         }
       });
     } else {
-      console.log(
+      throwError(
         "try again and provide a username as the first argument and a password as the second argument"
       );
-      process.exit(1);
     }
   })
   .catch(err => {
