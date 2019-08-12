@@ -41,7 +41,7 @@ const getPubKeyFromFile = new Promise(function(resolve, reject) {
 
 //find User by username and compare password provided to the hash stored on mongodb
 if (username && password && pubKey) {
-  /* Setup to deal with deprecation warnings */=
+  /* Setup to deal with deprecation warnings */
   mongoose
     .set("useCreateIndex", true)
     .set("useNewUrlParser", true)
