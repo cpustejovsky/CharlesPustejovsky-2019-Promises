@@ -1,4 +1,10 @@
-<h1><del>Developer Assessment 2019</del> Promise Practice Based On a Developer Assessment</h1>
+# Asynchronous JavaScript Practice
+
+## tl;dr
+
+I took a developer assessment which showed me that I really needed to get a better grasp on asynchronous JavaScript that relied on more than the humble callback. The following weekend, I decided to revisit that assessment and refactor it to use Promises and async/await. It's still WIP, but it has been a learning experience.
+
+[Here is the original dev assessment for comparison](https://github.com/cpustejovsky/CharlesPustejovsky-2019)
 
 ## Set Up
 1. Clone repository
