@@ -17,21 +17,13 @@ const logErrorAndExit = errMsg => {
 };
 
 async function authenticateUser() {
-  let user = new Promise(function(resolve, reject) {
-    User.findOne({ username: username }, (err, user) => {
-      //wasn't specifically catching the error of no username match and instead failing on
-      //`can't read property password of null` so I set this up for clearer error handling
-      if (err || !user) {
-        if (err) reject(err);
-        if (!user) reject(`User not found.`);
-      } else {
-        console.log(`found user: ${user.username}`);
-        resolve(user);
-      }
-    });
-  });
-  foundUser = await user;
-  authenticated = bcrypt.compareSync(password, foundUser.password);
+  try {
+    let user = await User.findOne({ username: username }).exec();
+    if (!user) logErrorAndExit(`User not found.`);
+  } catch (err) {
+    if (err) logErrorAndExit(err);
+  }
+  authenticated = bcrypt.compareSync(password, user.password);
   return authenticated;
 }
 
