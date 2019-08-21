@@ -1,5 +1,5 @@
 //IMPORTS
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const User = require("./models/user.js");

@@ -1,5 +1,5 @@
 //IMPORTS
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 
@@ -22,7 +22,7 @@ mongoose
     if (username && password) {
       console.log("setting up your username and password...");
       //the salt could probably be lowered, but I set it higher to make it more secure. let me know if that thinking is wrong.
-      let hash = bcrypt.hashSync(password, 5);
+      let hash = bcrypt.hashSync(password, 16);
       let user = new User({
         username: username,
         password: hash
