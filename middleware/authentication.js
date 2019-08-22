@@ -10,7 +10,7 @@ const authentication = {
       });
       user.save(err => {
         if (err) {
-          logErrorAndExit(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
+          console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
           `);
         } else {
           console.log(
@@ -18,11 +18,10 @@ const authentication = {
               user.username
             } was authenticated.\nKeep your password in a secure place.`
           );
-          process.exit(0);
         }
       });
     } else {
-      logErrorAndExit(
+      console.log(
         "try again and provide a username as the first argument and a password as the second argument"
       );
     }

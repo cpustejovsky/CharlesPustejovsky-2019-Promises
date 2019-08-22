@@ -1,16 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const port = process.env.PORT || 3000;
+const bodyParser = require("body-parser");
 
 //SETUP
+const port = process.env.PORT || 3000;
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-
-const logErrorAndExit = errMsg => {
-  console.log(errMsg);
-  //I have the `process.exit()`s all over to make sure the file closes out either because of error or because it's finished running so this could be broken up with a couple of files
-  process.exit(1);
-};
 
 //ROUTES
 const indexRoutes = require("./routes/index");
