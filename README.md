@@ -1,10 +1,6 @@
-# Asynchronous JavaScript Practice
+# Developer Assessment V2
 
-## tl;dr
-
-I took a developer assessment which showed me that I really needed to get a better grasp on asynchronous JavaScript that relied on more than the humble callback. The following weekend, I decided to revisit that assessment and refactor it to use Promises and async/await. It's still WIP, but it has been a learning experience.
-
-[Here is the original dev assessment for comparison](https://github.com/cpustejovsky/CharlesPustejovsky-2019)
+I didn't understand the instructions and made a command line app when I should've made a client/server. Here's attempt #2 with some gained knowledge of async/await thrown in!
 
 ## Set Up
 1. Clone repository
