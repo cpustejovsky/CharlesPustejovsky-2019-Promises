@@ -12,10 +12,8 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 router.post("/register", (req, res) => {
-  console.log(req.body.user.username);
-  console.log(req.body.user.password);
   Authentication.registerUser(req.body.user.username, req.body.user.password);
-  res.render("register");
+  res.redirect("/keys");
 });
 
 router.get("/login", (req, res) => {

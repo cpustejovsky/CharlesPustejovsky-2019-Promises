@@ -17,6 +17,7 @@ const authentication = {
         if (err) {
           console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
           `);
+          success = false;
         } else {
           console.log(
             `Congratulations! ${
