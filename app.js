@@ -16,7 +16,7 @@ app.use("/", indexRoutes);
 mongoose
   .set("useCreateIndex", true)
   .set("useNewUrlParser", true)
-  .connect("mongodb://localhost:27017/CharlesPustejovsky-2019-Promises")
+  .connect("mongodb://localhost:27017/CharlesPustejovsky-2019-v2")
   .then(() => {
     console.log("database connected");
     app

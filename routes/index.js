@@ -12,8 +12,10 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 router.post("/register", (req, res) => {
-  Authentication.registerUser(req.body.username, req.body.password);
-  res.send("IT'S SECRET TO EVERYBODY");
+  console.log(req.body.user.username);
+  console.log(req.body.user.password);
+  Authentication.registerUser(req.body.user.username, req.body.user.password);
+  res.render("register");
 });
 
 router.get("/login", (req, res) => {
