@@ -10,20 +10,14 @@ const Auth = {
     if (username && password) {
       console.log("setting up your username and password...");
       //the salt could probably be lowered, but I set it higher to make it more secure. let me know if that thinking is wrong.
-      hash = bcrypt.genSalt(16, function(err, salt) {
-        if (err) throw err;
-        bcrypt.hash(secret, salt, function(err, hash) {
-          if (err) throw err;
-          return hash;
-        });
-      });
+      let hash = bcrypt.hashSync(password, 16);
       let user = new User({
         username: username,
         password: hash
       });
       user.save(err => {
         if (err) {
-          console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}
+          console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}	
           `);
         } else {
           console.log(
@@ -46,10 +40,10 @@ const Auth = {
     } catch (err) {
       if (err) res.redirect("/login");
     }
-    authenticated = bcrypt.compareSync(password, user.password);
-    if (authenticated) {
+    if (bcrypt.compareSync(password, user.password)) {
       return next();
     } else {
+      console.log("user was not authenticated or something went wrong");
       res.redirect("/login");
     }
   }
