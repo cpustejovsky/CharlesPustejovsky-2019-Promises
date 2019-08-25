@@ -31,5 +31,5 @@ mongoose
       });
   })
   .catch(err => {
-    logErrorAndExit(err);
+    throw err;
   });

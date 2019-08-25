@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 router.get("/register", (req, res) => {
   res.render("register");
 });
+
 router.post("/register", (req, res) => {
   Authentication.registerUser(req.body.user.username, req.body.user.password);
   res.redirect("/keys");
@@ -20,7 +21,7 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/keys", (req, res) => {
+router.get("/keys", Authentication.authenticateUser, (req, res) => {
   res.render("keys");
 });
 
