@@ -17,5 +17,3 @@ I didn't understand the instructions and made a command line app when I should'v
 * To store a public key connected to your username, run `node storePubKey.js <username> <password> <path/to/publickey>`
 * To sign a message with your private key, run `node signMsg.js <path/to/private_key> <message file> <names-of-signed-message-file>`; The signed message will be located in the `signatures` directory.
 * To verify that a message was signed by the private key associated with a specific public key, run `node verifyMsg.js <username-attached-to-public-key> <signature-located-in-signatures-directory/> <message-you-are-cheecking-for-signature>`
-
-
