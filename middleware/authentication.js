@@ -30,11 +30,13 @@ const Auth = {
     }
   },
   async authenticateUser(req, res, next) {
+    console.log("authenticating user...");
     try {
       let user = await User.findOne({
         username: req.body.username
       }).exec();
       if (bcrypt.compareSync(req.body.password, user.password)) {
+        console.log("successfully authenticated");
         return next();
       } else {
         console.log("user was not authenticated or something went wrong");

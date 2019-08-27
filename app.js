@@ -10,7 +10,9 @@ app.set("view engine", "ejs");
 
 //ROUTES
 const indexRoutes = require("./routes/index");
+const keyRoutes = require("./routes/keys");
 app.use("/", indexRoutes);
+app.use("/keys", keyRoutes);
 
 //Connest DB and Start Server
 mongoose
