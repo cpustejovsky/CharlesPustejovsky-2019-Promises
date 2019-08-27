@@ -22,10 +22,10 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login", Authentication.authenticateUser, (req, res) => {
-  res.redirect("/keys");
+  res.render("keys");
 });
 
-router.get("/keys", (req, res) => {
+router.get("/keys", Authentication.authenticateUser, (req, res) => {
   res.render("keys");
 });
 

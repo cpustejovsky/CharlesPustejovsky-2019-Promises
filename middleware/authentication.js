@@ -30,7 +30,6 @@ const Auth = {
     }
   },
   async authenticateUser(req, res, next) {
-    console.log(req.body);
     try {
       let user = await User.findOne({
         username: req.body.username
