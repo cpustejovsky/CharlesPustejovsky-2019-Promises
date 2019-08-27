@@ -1,8 +1,34 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const fs = require("fs");
+
 const router = express.Router();
 const User = require("../models/user");
+
+async function savePubKeyFromFileToUser(pubKey, foundUser) {
+  let pubKeyData = new Promise(function(resolve, reject) {
+    fs.readFile(pubKey, (err, data) => {
+      if (err) reject(err);
+      else {
+        console.log(`found the data! \n ${data.toString()}`);
+        resolve(data.toString());
+      }
+    });
+  });
+  foundUser.publicKey = await pubKeyData;
+  foundUser
+    .save()
+    .then(() => {
+      console.log(
+        `successfully saved data from ${pubKey} to ${foundUser.username}`
+      );
+      res.redirect("/");
+    })
+    .catch(err => {
+      throw err;
+    });
+}
 
 router.get("/", (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
@@ -33,9 +59,10 @@ router.post("/", (req, res) => {
     } else {
       console.log(`found user!`);
       console.log(`authenticating your password...`);
+
       if (bcrypt.compareSync(req.body.password, user.password)) {
         console.log(req.body.testFile);
-        res.redirect("/");
+        savePubKeyFromFileToUser(req.body.testFile, user);
       } else {
         console.log(`passwords did not match. please try again.`);
       }
