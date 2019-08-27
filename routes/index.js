@@ -21,7 +21,11 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/keys", Authentication.authenticateUser, (req, res) => {
+router.post("/login", Authentication.authenticateUser, (req, res) => {
+  res.redirect("/keys");
+});
+
+router.get("/keys", (req, res) => {
   res.render("keys");
 });
 

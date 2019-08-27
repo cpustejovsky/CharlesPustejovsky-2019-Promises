@@ -2,8 +2,6 @@
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = require("../models/user.js");
-const secret = "shouldBeHiddenWithDotEnv";
-let authenticated = false;
 
 const Auth = {
   async registerUser(username, password) {
@@ -32,19 +30,20 @@ const Auth = {
     }
   },
   async authenticateUser(req, res, next) {
+    console.log(req.body);
     try {
       let user = await User.findOne({
-        username: req.body.user.username
+        username: req.body.username
       }).exec();
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        return next();
+      } else {
+        console.log("user was not authenticated or something went wrong");
+        res.redirect("/login");
+      }
       if (!user) res.redirect("/login");
     } catch (err) {
       if (err) res.redirect("/login");
-    }
-    if (bcrypt.compareSync(password, user.password)) {
-      return next();
-    } else {
-      console.log("user was not authenticated or something went wrong");
-      res.redirect("/login");
     }
   }
 };
