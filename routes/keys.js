@@ -23,7 +23,6 @@ async function savePubKeyFromFileToUser(pubKey, foundUser) {
       console.log(
         `successfully saved data from ${pubKey} to ${foundUser.username}`
       );
-      res.redirect("/");
     })
     .catch(err => {
       throw err;
@@ -62,7 +61,9 @@ router.post("/", (req, res) => {
 
       if (bcrypt.compareSync(req.body.password, user.password)) {
         console.log(req.body.testFile);
-        savePubKeyFromFileToUser(req.body.testFile, user);
+        savePubKeyFromFileToUser(req.body.testFile, user).then(() =>
+          res.redirect("/")
+        );
       } else {
         console.log(`passwords did not match. please try again.`);
       }
