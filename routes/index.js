@@ -8,6 +8,12 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
+router.post("/", (req, res) => {
+  console.log(req.body.signedMessage);
+  console.log(req.body.username);
+  res.redirect("/");
+});
+
 //USER SIGN UP
 router.get("/register", (req, res) => {
   res.render("register");
