@@ -4,7 +4,8 @@
   "description": "developer assessment",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "nodemon app.js"
   },
   "author": "cpustejovsky",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "client-sessions": "^0.8.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "form-data": "^2.5.1",
     "mongoose": "^5.6.8"
   }
 }

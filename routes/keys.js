@@ -1,8 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
-const fs = require("fs");
+const FormData = require("form-data");
 
+const fs = require("fs");
 const router = express.Router();
 const User = require("../models/user");
 
