@@ -49,6 +49,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  console.log(req);
   User.findOne({ username: req.body.username }, (err, user) => {
     //wasn't specifically catching the error of no username match and instead failing on
     //`can't read property password of null` so I set this up for clearer error handling
