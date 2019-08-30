@@ -52,13 +52,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", upload.single("testFile"), (req, res) => {
-  //TODO: on error, file isn't being deleted from temp storage
-  console.log(req.body.username);
-  console.log(req.body.password);
-  console.log("=============================================");
-  console.log(req.file);
-  console.log("=============================================");
-  console.log(fs.readFileSync(req.file.path, "utf8"));
   User.findOne({ username: req.body.username }, (err, user) => {
     //wasn't specifically catching the error of no username match and instead failing on
     //`can't read property password of null` so I set this up for clearer error handling
