@@ -9,9 +9,27 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log(req.body.signedMessage);
-  console.log(req.body.username);
-  res.redirect("/");
+  User.findOne({ username: username }, (err, user) => {
+    if (err || !user) {
+      if (err) throw err;
+      if (!user) console.log(`User not found.`);
+      process.exit(1);
+    } else {
+      console.log(`found user!`);
+      console.log(
+        `verifying message signature with ${user.username}'s public key...`
+      );
+      //now the script verifies the message using the signature created by signMsg.js
+      //and the public key stored using storePubKey.js
+      const verifier = crypto.createVerify("sha256");
+      verifier.update(message);
+      verifier.end();
+      //https://nodejs.org/api/crypto.html#crypto_class_verify
+      const verified = verifier.verify(user.publicKey, signature);
+
+      console.log(verified);
+    }
+  });
 });
 
 //USER SIGN UP
