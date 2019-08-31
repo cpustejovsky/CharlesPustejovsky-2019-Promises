@@ -1,9 +1,9 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const multer = require("multer");
-var upload = multer({ dest: "temp/" });
-
 const fs = require("fs");
+
+const upload = multer({ dest: "temp/" });
 const router = express.Router();
 const User = require("../models/user");
 
@@ -64,10 +64,12 @@ router.post("/", upload.single("testFile"), (req, res) => {
     } else {
       console.log(`found user!`);
       console.log(`authenticating your password...`);
-
       if (bcrypt.compareSync(req.body.password, user.password)) {
-        savePubKeyFromFileToUser(req.file.path, user, req.file.path).then(() =>
-          res.redirect("/")
+        savePubKeyFromFileToUser(req.file.path, user, req.file.path).then(
+          () => {
+            console.log("successfully saved public key to user");
+            res.redirect("/");
+          }
         );
       } else {
         fs.unlinkSync(req.file.path);

@@ -7,6 +7,11 @@ var upload = multer({ dest: "temp/" });
 const router = express.Router();
 const User = require("../models/user");
 
+const rmTempFiles = () => {
+  fs.unlinkSync(req.files["signature"][0].path);
+  fs.unlinkSync(req.files["message"][0].path);
+};
+
 router.get("/", (req, res) => {
   res.render("index");
 });
@@ -17,17 +22,14 @@ router.post(
   (req, res) => {
     let signature = fs.readFileSync(req.files["signature"][0].path);
     let message = fs.readFileSync(req.files["message"][0].path);
-    console.log(req.body.username);
     User.findOne({ username: req.body.username }, (err, user) => {
       if (err || !user) {
         if (err) {
-          fs.unlinkSync(req.files["signature"][0].path);
-          fs.unlinkSync(req.files["message"][0].path);
+          rmTempFiles();
           throw err;
         }
         if (!user) {
-          fs.unlinkSync(req.files["signature"][0].path);
-          fs.unlinkSync(req.files["message"][0].path);
+          rmTempFiles();
           console.log(`User not found.`);
         }
         process.exit(1);
@@ -43,9 +45,7 @@ router.post(
         verifier.end();
         //https://nodejs.org/api/crypto.html#crypto_class_verify
         const verified = verifier.verify(user.publicKey, signature);
-        console.log(verified);
-        fs.unlinkSync(req.files["signature"][0].path);
-        fs.unlinkSync(req.files["message"][0].path);
+        rmTempFiles();
         res.render("results", { verified: verified });
       }
     });
@@ -60,30 +60,24 @@ router.get("/register", (req, res) => {
 router.post("/register", (req, res) => {
   let username = req.body.user.username;
   let password = req.body.user.password;
-  if (username && password) {
-    console.log("setting up your username and password...");
-    //the salt could probably be lowered, but I set it higher to make it more secure. let me know if that thinking is wrong.
-    let hash = bcrypt.hashSync(password, 16);
-    let user = new User({
-      username: username,
-      password: hash
-    });
-    user.save(err => {
-      if (err) {
-        console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}	
+  console.log("setting up your username and password...");
+  //the salt could probably be lowered, but I set it higher to make it more secure. let me know if that thinking is wrong.
+  let hash = bcrypt.hashSync(password, 16);
+  let user = new User({
+    username: username,
+    password: hash
+  });
+  user.save(err => {
+    if (err) {
+      console.log(`Something bad happened! Please try again! Here's the error:\n====================\n${err}	
           `);
-      } else {
-        console.log(
-          `Congratulations! ${user.username} was authenticated.\nKeep your password in a secure place.`
-        );
-        res.redirect("/login");
-      }
-    });
-  } else {
-    console.log(
-      "try again and provide a username as the first argument and a password as the second argument"
-    );
-  }
+    } else {
+      console.log(
+        `Congratulations! ${user.username} was authenticated.\nKeep your password in a secure place.`
+      );
+      res.redirect("/login");
+    }
+  });
 });
 
 router.get("/login", (req, res) => {
@@ -101,6 +95,7 @@ router.post("/login", (req, res) => {
       console.log(`found user!`);
       console.log(`authenticating your password...`);
       if (bcrypt.compareSync(req.body.password, user.password)) {
+        console.log("logged in!");
         res.render("keys", { username: req.body.username });
       } else {
         console.log(`passwords did not match. please try again.`);

@@ -6,7 +6,13 @@
 </p>
 <form action="/keys" method="POST" enctype="multipart/form-data">
   <input type="hidden" name="username" value="<%= username %>" />
-  <input type="file" name="testFile" id="" />
-  <input type="password" name="password" id="" placeholder="password" />
+  <input type="file" name="testFile" id="" required />
+  <input
+    type="password"
+    name="password"
+    id=""
+    placeholder="password"
+    required
+  />
   <button>Submit</button>
 </form>

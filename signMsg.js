@@ -13,7 +13,6 @@ signer.update(message);
 signer.end();
 const signature = signer.sign(privKey);
 
-//TODO: replace with Promise
 fs.writeFile(`${signedMsgFileNamePath}`, signature, err => {
   if (err) throw err;
   console.log(
