@@ -1,10 +1,6 @@
 # Developer Assessment V2
 
-## TODOs
-* fs.readFile() is only reading files that are correctly pathed locally which isn't good. I need to fix that. [This article from codeburst might be the ticket](https://codeburst.io/how-to-handle-multipart-form-data-in-nodejs-file-uploading-in-nodejs-26c0cb88adcf)
-* I need to make sure the verifyMsg.js logic is working on POST requests from the home page.
-
-I didn't understand the instructions and made a command line app when I should've made a client/server. Here's attempt #2 with some gained knowledge of async/await thrown in!
+I first created this [app to work entirely on the command line](https://github.com/cpustejovsky/CharlesPustejovsky-2019). Here is the app as an Express application.
 
 ## Set Up
 1. Clone repository
@@ -20,6 +16,6 @@ I didn't understand the instructions and made a command line app when I should'v
 ## Working with Public and Private Keys
 * Click **Choose File** and upload your public key
 * Enter your password again and press **Submit**
-* To sign a message with your private key, run `node signMsg.js <path/to/private_key> <message file> <names-of-signed-message-file>`; The signed message will be located in the `signatures` directory.
+* To sign a message with your private key, open a new tab on terminal and run `node signMsg.js <path/to/private_key> <message file> <path-and-name-for-signature>`
   * Since none of this needs to or should touch the server, I've left it out of the web app and as a script to be run on your local machine.
-* Now you can go use the homepage. Upload the signed message and the username of who signed the message. The app will tell you if that file was in fact signed with a private key corresponding to the public key associated with the username you submitted.
+* Now you can use the homepage. Upload the message, signature, and the username of who signed the message. The app will tell you if that file was signed with a private key corresponding to the public key associated with the username you submitted.
