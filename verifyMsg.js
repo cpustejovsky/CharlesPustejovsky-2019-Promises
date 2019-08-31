@@ -13,7 +13,7 @@ mongoose
   /* Setup to deal with deprecation warnings */
   .set("useCreateIndex", true)
   .set("useNewUrlParser", true)
-  .connect("mongodb://localhost:27017/CharlesPustejovsky-2019")
+  .connect("mongodb://localhost:27017/CharlesPustejovsky-2019-v2")
   .then(() => {
     //I find the public key attached to the username stored using storePubKey.js
     User.findOne({ username: username }, (err, user) => {

@@ -75,7 +75,6 @@ router.post("/", upload.single("testFile"), (req, res) => {
       }
     }
   });
-  fs.unlinkSync(req.file.path);
 });
 
 module.exports = router;

@@ -4,8 +4,20 @@
   Upload the signed file you want verified along with the username of the person
   who signed the file.
 </p>
-<form action="/" method="POST">
-  <input type="file" name="signedMessage" id="" />
-  <input type="test" name="username" id="" placeholder="username" />
-  <button>Submit</button>
+<form action="/" method="POST" enctype="multipart/form-data">
+  <div>
+    <h3>File Sigature</h3>
+    <input type="file" name="signature" id="" />
+  </div>
+  <div>
+    <h3>Message</h3>
+    <input type="file" name="message" id="" />
+  </div>
+  <div>
+    <h3>Username</h3>
+    <input type="test" name="username" id="" placeholder="username" />
+  </div>
+  <div>
+    <button>Submit</button>
+  </div>
 </form>

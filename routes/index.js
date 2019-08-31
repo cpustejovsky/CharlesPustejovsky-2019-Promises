@@ -1,6 +1,9 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
+const crypto = require("crypto");
+const fs = require("fs");
+const multer = require("multer");
+var upload = multer({ dest: "temp/" });
 const router = express.Router();
 const User = require("../models/user");
 
@@ -8,29 +11,46 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-router.post("/", (req, res) => {
-  User.findOne({ username: username }, (err, user) => {
-    if (err || !user) {
-      if (err) throw err;
-      if (!user) console.log(`User not found.`);
-      process.exit(1);
-    } else {
-      console.log(`found user!`);
-      console.log(
-        `verifying message signature with ${user.username}'s public key...`
-      );
-      //now the script verifies the message using the signature created by signMsg.js
-      //and the public key stored using storePubKey.js
-      const verifier = crypto.createVerify("sha256");
-      verifier.update(message);
-      verifier.end();
-      //https://nodejs.org/api/crypto.html#crypto_class_verify
-      const verified = verifier.verify(user.publicKey, signature);
-
-      console.log(verified);
-    }
-  });
-});
+router.post(
+  "/",
+  upload.fields([{ name: "signature" }, { name: "message" }]),
+  (req, res) => {
+    let signature = fs.readFileSync(req.files["signature"][0].path);
+    let message = fs.readFileSync(req.files["message"][0].path);
+    console.log(req.body.username);
+    User.findOne({ username: req.body.username }, (err, user) => {
+      if (err || !user) {
+        if (err) {
+          fs.unlinkSync(req.files["signature"][0].path);
+          fs.unlinkSync(req.files["message"][0].path);
+          throw err;
+        }
+        if (!user) {
+          fs.unlinkSync(req.files["signature"][0].path);
+          fs.unlinkSync(req.files["message"][0].path);
+          console.log(`User not found.`);
+        }
+        process.exit(1);
+      } else {
+        console.log(`found user!`);
+        console.log(
+          `verifying message signature with ${user.username}'s public key...`
+        );
+        //now the script verifies the message using the signature created by signMsg.js
+        //and the public key stored using storePubKey.js
+        const verifier = crypto.createVerify("sha256");
+        verifier.update(message);
+        verifier.end();
+        //https://nodejs.org/api/crypto.html#crypto_class_verify
+        const verified = verifier.verify(user.publicKey, signature);
+        console.log(verified);
+        fs.unlinkSync(req.files["signature"][0].path);
+        fs.unlinkSync(req.files["message"][0].path);
+        res.render("results", { verified: verified });
+      }
+    });
+  }
+);
 
 //USER SIGN UP
 router.get("/register", (req, res) => {
