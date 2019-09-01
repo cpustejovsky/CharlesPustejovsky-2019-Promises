@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const fs = require("fs");
 const multer = require("multer");
-var upload = multer({ dest: "temp/" });
+const upload = multer({ dest: "temp/" });
 const router = express.Router();
 const User = require("../models/user");
 
