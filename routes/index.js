@@ -7,11 +7,6 @@ const upload = multer({ dest: "temp/" });
 const router = express.Router();
 const User = require("../models/user");
 
-const rmTempFiles = () => {
-  fs.unlinkSync(req.files["signature"][0].path);
-  fs.unlinkSync(req.files["message"][0].path);
-};
-
 router.get("/", (req, res) => {
   res.render("index");
 });
@@ -25,11 +20,13 @@ router.post(
     User.findOne({ username: req.body.username }, (err, user) => {
       if (err || !user) {
         if (err) {
-          rmTempFiles();
+          fs.unlinkSync(req.files["signature"][0].path);
+          fs.unlinkSync(req.files["message"][0].path);
           throw err;
         }
         if (!user) {
-          rmTempFiles();
+          fs.unlinkSync(req.files["signature"][0].path);
+          fs.unlinkSync(req.files["message"][0].path);
           console.log(`User not found.`);
         }
         process.exit(1);
@@ -45,7 +42,8 @@ router.post(
         verifier.end();
         //https://nodejs.org/api/crypto.html#crypto_class_verify
         const verified = verifier.verify(user.publicKey, signature);
-        rmTempFiles();
+        fs.unlinkSync(req.files["signature"][0].path);
+        fs.unlinkSync(req.files["message"][0].path);
         res.render("results", { verified: verified });
       }
     });
