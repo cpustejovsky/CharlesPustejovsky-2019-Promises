@@ -28,8 +28,8 @@ router.post(
           fs.unlinkSync(req.files["signature"][0].path);
           fs.unlinkSync(req.files["message"][0].path);
           console.log(`User not found.`);
+          res.redirect("/");
         }
-        process.exit(1);
       } else {
         console.log(`found user!`);
         console.log(
@@ -88,7 +88,10 @@ router.post("/login", (req, res) => {
     //`can't read property password of null` so I set this up for clearer error handling
     if (err || !user) {
       if (err) throw err;
-      if (!user) console.log(`User not found.`);
+      if (!user) {
+        console.log(`User not found.`);
+        res.redirect("/login");
+      }
     } else {
       console.log(`found user!`);
       console.log(`authenticating your password...`);

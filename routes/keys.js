@@ -38,7 +38,10 @@ router.get("/", (req, res) => {
     //`can't read property password of null` so I set this up for clearer error handling
     if (err || !user) {
       if (err) throw err;
-      if (!user) console.log(`User not found.`);
+      if (!user) {
+        console.log(`User not found.`);
+        res.redirect("/login");
+      }
     } else {
       console.log(`found user!`);
       console.log(`authenticating your password...`);
@@ -61,6 +64,7 @@ router.post("/", upload.single("testFile"), (req, res) => {
         throw err;
       }
       if (!user) console.log(`User not found.`);
+      res.redirect("/");
     } else {
       console.log(`found user!`);
       console.log(`authenticating your password...`);
@@ -68,7 +72,7 @@ router.post("/", upload.single("testFile"), (req, res) => {
         savePubKeyFromFileToUser(req.file.path, user, req.file.path).then(
           () => {
             console.log("successfully saved public key to user");
-            res.redirect("/");
+            res.redirect("/login");
           }
         );
       } else {
